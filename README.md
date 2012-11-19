@@ -4,7 +4,7 @@ simplewebsocket
 a simple websocket chat server
 
 ===============
-#HOW TO
+##HOW TO
 
 1. Start a simple HTTP server to listen on 8000
 ```
