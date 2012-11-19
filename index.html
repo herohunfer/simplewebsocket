@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Web Socket Example</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div id="serveroutput"></div>
+    <form id="form">
+        <input type="text" value="Hello World!" id="msg" />
+        <input type="submit" value="Send" onclick="sendMsg()" />
+    </form>
+</body>
+</html>
+<script>
+    var form = document.getElementById("form");
+    var msg = document.getElementById("msg");
+    var output = document.getElementById("serveroutput");
+
+    var s = new WebSocket("ws://"+window.location.hostname+":9876/");
+    s.onopen = function(e) {
+        console.log("opened");
+        out("Connected.");
+    }
+    s.onclose = function(e) {
+        console.log("closed");
+        out("Connection closed.");
+    }
+    s.onmessage = function(e) {
+        console.log("got: " + e.data);
+        out(e.data);
+    }
+
+    form.onsubmit = function(e) {
+        e.preventDefault();
+        msg.value = "";
+        window.scrollTop = window.scrollHeight;
+    }
+
+    function sendMsg() {
+        s.send(msg.value);
+    }
+
+    function out(text) {
+        var el = document.createElement("p");
+        el.innerHTML = text;
+        output.appendChild(el);
+    }
+
+    msg.focus();
+</script>
